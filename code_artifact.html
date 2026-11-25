@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>방금 떠올린 프로포즈의 말을 너에게 바칠게 💍 (병맛 에디션)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Noto Sans KR & Gowun Batang for dramatic proposal reading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-velvet: #1a0612;
+            --rose-primary: #f43f5e;
+            --gold-accent: #fbbf24;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: radial-gradient(circle at top, #3b0d26 0%, #1a0612 60%, #0d0208 100%);
+            color: #fff1f2;
+            min-height: 100vh;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .font-dramatic {
+            font-family: 'Gowun Batang', serif;
+        }
+
+        /* Floating Hearts Background */
+        .floating-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .floating-particle {
+            position: absolute;
+            bottom: -40px;
+            opacity: 0.25;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.3;
+            }
+            85% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Card Styling */
+        .game-card {
+            transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        .game-card:hover {
+            transform: translateY(-4px) scale(1.03);
+        }
+
+        .game-card:active {
+            transform: scale(0.95);
+        }
+
+        .chaos-card {
+            background: linear-gradient(145deg, #ffffff 0%, #ffe4e6 100%);
+            color: #881337;
+            border: 2px solid #fda4af;
+        }
+
+        .chaos-card.selected-for-swap {
+            background: linear-gradient(145deg, #fef08a 0%, #fde047 100%);
+            border: 2px solid #eab308;
+            color: #713f12;
+            transform: translateY(-6px);
+            box-shadow: 0 0 15px rgba(250, 204, 21, 0.6);
+        }
+
+        .base-card {
+            background: linear-gradient(145deg, #4c0519 0%, #881337 100%);
+            color: #ffe4e6;
+            border: 1.5px solid #fb7185;
+        }
+
+        .assembled-word {
+            animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Dramatic Spotlight Animation */
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 0 25px rgba(244, 63, 94, 0.4), 0 0 50px rgba(251, 191, 36, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(244, 63, 94, 0.7), 0 0 80px rgba(251, 191, 36, 0.4);
+            }
+        }
+
+        .spotlight-box {
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(244, 63, 94, 0.5);
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="relative flex flex-col items-center justify-between min-h-screen p-3 sm:p-5">
+
+    <!-- Floating Ambient Hearts & Rings -->
+    <div id="floating-bg" class="floating-bg"></div>
+
+    <!-- Top Header Bar -->
+    <header class="relative z-10 w-full max-w-3xl flex items-center justify-between bg-rose-950/70 backdrop-blur-md border border-rose-500/30 rounded-2xl px-4 py-2.5 mb-4 shadow-lg">
+        <div class="flex items-center gap-2">
+            <span class="text-2xl">💍</span>
+            <div>
+                <h1 class="text-sm sm:text-base font-black tracking-tight text-rose-100 leading-tight">
+                    방금 떠올린 프로포즈의 말을 너에게 바칠게
+                </h1>
+                <p class="text-[11px] text-amber-300 font-semibold">🔥 우정 파괴 &amp; 병맛 로맨스 에디션</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button id="btn-rules" class="px-2.5 py-1.5 rounded-xl bg-rose-900/80 hover:bg-rose-800 border border-rose-400/30 text-xs font-bold text-rose-100 transition">
+                📜 규칙
+            </button>
+            <button id="btn-sound" class="p-1.5 rounded-xl bg-rose-900/80 hover:bg-rose-800 border border-rose-400/30 text-sm transition" title="효과음 켜기/끄기">
+                🔊
+            </button>
+            <button id="btn-reset-top" class="hidden px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-500/30 text-xs font-bold text-slate-200 transition">
+                처음으로
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main id="app-container" class="relative z-10 w-full max-w-3xl flex-1 flex flex-col justify-center">
+        <!-- Screens will be dynamically injected here -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 w-full max-w-3xl text-center text-[11px] text-rose-300/60 mt-4 py-2">
+        한 기기로 돌아가며 플레이하는 파티 게임 • 진지하게 읽을수록 웃음 참기 실패 확률 200%
+    </footer>
+
+    <!-- Rules Modal -->
+    <div id="rules-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-gradient-to-b from-rose-950 to-slate-950 border-2 border-rose-500/50 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-rose-500/30 pb-3">
+                <h2 class="text-xl font-black text-amber-300">💍 게임 방법 (병맛 에디션)</h2>
+                <button id="btn-close-rules" class="text-rose-300 hover:text-white text-xl font-bold px-2">✕</button>
+            </div>
+            <div class="space-y-3 text-sm text-rose-100 leading-relaxed max-h-[60vh] overflow-y-auto pr-1">
+                <p><strong class="text-amber-300">1. 역할 분담:</strong> 매 라운드 한 명이 <span class="text-pink-400 font-bold">'고백받는 주인공'</span>이 되고, 나머지 플레이어들은 모두 <span class="text-cyan-300 font-bold">'구혼자'</span>가 됩니다.</p>
+                <p><strong class="text-amber-300">2. 비밀리에 문장 조립:</strong> 구혼자들은 기기를 한 명씩 넘겨받으며, 무작위로 지급된 <span class="underline decoration-rose-400">7장의 병맛 단어 카드</span>와 <span class="underline decoration-amber-400">기본 조사/어미 카드</span>를 조합해 세상에 둘도 없는 프로포즈 문장을 만듭니다.</p>
+                <p><strong class="text-amber-300">3. 패 교체 찬스:</strong> 단어가 너무 노답이라면 턴당 1번, 최대 3장까지 버리고 새 카드를 뽑을 수 있습니다!</p>
+                <p><strong class="text-amber-300">4. 절절한 고백 타임:</strong> 모든 구혼자의 문장이 완성되면, 한 명씩 화면을 보며 <span class="text-amber-300 font-bold">최대한 느끼하고 진지한 목소리로</span> 프로포즈를 낭독합니다.</p>
+                <p><strong class="text-amber-300">5. 반지 수여:</strong> 고백받는 주인공이 가장 마음에 들거나 웃긴 고백을 선택해 <span class="text-amber-300 font-bold">반지(💍)</span>를 줍니다. 목표 반지 개수를 먼저 모으는 사람이 최종 승리!</p>
+            </div>
+            <button id="btn-confirm-rules" class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 font-black text-white shadow-lg transition">
+                알겠어, 사랑할 준비 완료! 💖
+            </button>
+        </div>
+    </div>
+
+    <!-- Custom Confirm Modal (No native alert/confirm) -->
+    <div id="confirm-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-rose-500/50 rounded-3xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl">
+            <div class="text-4xl">💔</div>
+            <h3 id="confirm-title" class="text-lg font-black text-white">정말 처음으로 돌아갈까요?</h3>
+            <p id="confirm-desc" class="text-xs text-rose-200">진행 중인 모든 사랑과 반지가 초기화됩니다.</p>
+            <div class="flex gap-3 pt-2">
+                <button id="btn-confirm-cancel" class="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm">취소</button>
+                <button id="btn-confirm-ok" class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-sm">초기화하기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * ============================================================================
+         * 1. SOUND EFFECTS ENGINE (Web Audio API - Zero External Files Needed)
+         * ============================================================================
+         */
+        class SoundFX {
+            constructor() {
+                this.enabled = true;
+                this.ctx = null;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) {
+                        this.ctx = new AudioContext();
+                    }
+                }
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+
+            playTone(freq, type, duration, delay = 0, vol = 0.15) {
+                if (!this.enabled) return;
+                this.init();
+                if (!this.ctx) return;
+
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, this.ctx.currentTime + delay);
+
+                gain.gain.setValueAtTime(vol, this.ctx.currentTime + delay);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + delay + duration);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                osc.start(this.ctx.currentTime + delay);
+                osc.stop(this.ctx.currentTime + delay + duration);
+            }
+
+            click() {
+                this.playTone(520, 'sine', 0.08, 0, 0.12);
+            }
+
+            cardAdd() {
+                this.playTone(440, 'triangle', 0.09, 0, 0.15);
+                this.playTone(660, 'triangle', 0.12, 0.05, 0.15);
+            }
+
+            cardRemove() {
+                this.playTone(380, 'sine', 0.09, 0, 0.12);
+                this.playTone(260, 'sine', 0.12, 0.04, 0.12);
+            }
+
+            shuffle() {
+                [300, 380, 460, 580].forEach((f, i) => {
+                    this.playTone(f, 'triangle', 0.08, i * 0.04, 0.12);
+                });
+            }
+
+            dramaticReveal() {
+                // Romantic harp/bell arpeggio
+                const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99];
+                notes.forEach((n, idx) => {
+                    this.playTone(n, 'sine', 0.45, idx * 0.08, 0.16);
+                });
+            }
+
+            ringAward() {
+                // Wedding bell fanfare
+                const melody = [
+                    { f: 523.25, d: 0.18, t: 0 },
+                    { f: 659.25, d: 0.18, t: 0.15 },
+                    { f: 783.99, d: 0.18, t: 0.30 },
+                    { f: 1046.50, d: 0.6, t: 0.45 }
+                ];
+                melody.forEach(m => this.playTone(m.f, 'triangle', m.d, m.t, 0.2));
+            }
+        }
+
+        const sfx = new SoundFX();
+
+        /**
+         * ============================================================================
+         * 2. MASSIVE HILARIOUS KOREAN WORD DATABASE (240+ CHAOTIC CARDS + BASE CARDS)
+         * ============================================================================
+         */
+        const BASE_CARDS = {
+            "호칭/주어": ["너의", "나의", "내", "네", "우리", "너를", "나를", "너에게", "나에게", "너와", "나와"],
+            "조사": ["의", "을", "를", "은", "는", "이", "가", "에", "에서", "로", "으로", "부터", "까지", "처럼", "보다", "도", "만", "하고"],
+            "연결/부사": ["그리고", "하지만", "왜냐하면", "그래서", "평생", "지금 당장", "영원히", "매일", "밤마다", "몰래", "진심으로", "미치도록", "뜨겁게", "무릎 꿇고", "눈물 흘리며"],
+            "프로포즈 엔딩": ["사랑해!", "결혼해줘!", "바칠게!", "줄게!", "책임져!", "함께하자!", "영원하자!", "받아줘!", "내 거 하자!", "혼인신고하자!"]
+        };
+
+        const CHAOS_CARDS_POOL = [
+            // 1. 음식 & 자취 & 현실 찌질함
+            "3일 묵은 짬뽕 국물", "탕수육 부먹", "민트초코 치약", "배달비 6,000원", "카드값 리볼빙",
+            "월요일 아침 출근길", "층간소음 리코더", "보일러 외출 모드", "곰팡이 핀 식빵", "체지방 40%",
+            "탈모 샴푸", "유통기한 지난 삼각김밥", "엄마 등짝 스매싱", "화장실 휴지 없음", "와이파이 1칸",
+            "배터리 1%", "치킨 껍질만 떼먹기", "국밥 깍두기 국물", "식어버린 붕어빵", "파인애플 피자",
+            "하와이안 피자 토핑", "불닭볶음면 액상스프", "음식물 쓰레기 봉투", "설거지 산더미", "밀린 월세 고지서",
+            "편의점 폐기 도시락", "아이스 아메리카노 얼음물", "눅눅해진 탕수육", "사리 추가 없는 떡볶이", "단무지 국물 원샷",
+            "마라탕 4단계 지옥맛", "고수 듬뿍 쌀국수", "취두부 액기스", "통장 잔고 480원", "마이너스 통장",
+            "할부 36개월", "연체 이자", "지하철 2호선 지옥철", "만석 버스 손잡이", "새벽 3시 야식 유혹",
+
+            // 2. 신체 & 생리현상 & 더러움(?)
+            "너의 콧구멍", "겨드랑이 땀", "발가락 양말", "입냄새", "콧물 방울",
+            "치명적인 뱃살", "무좀균의 반란", "방귀 뀌고 시치미 떼기", "배꼽 때", "귀지 덩어리",
+            "쌍꺼풀 테이프", "기름진 앞머리", "안 감은 머리 정수리 냄새", "발뒤꿈치 각질", "눈곱 낀 얼굴",
+            "턱수염 한 가닥", "코털 한 가닥", "왕여드름", "사랑니 발치 통증", "식중독 설사",
+            "과민성 대장증후군", "트림 참기", "하품하다 턱 빠짐", "다리 쥐남", "새끼발가락 문지방 찧기",
+            "목젖의 떨림", "지방간 수치", "거북목 증후군", "디스크 파열", "숙취의 우웩",
+
+            // 3. 중2병 & 판타지 & 광기
+            "흑염룡이 날뛰는 오른팔", "지옥에서 온 탕비실 요정", "전생의 바퀴벌레", "마왕의 콧털", "우주 최강 귀요미",
+            "심연의 다크니스", "광기의 풀악셀", "뇌절의 끝판왕", "피와 땀과 눈물과 콧물", "저주받은 인형",
+            "이세계 트럭", "파멸의 주둥아리", "광기 어린 눈빛", "삼각팬티 한 장", "대머리 독수리",
+            "타락한 천사의 비듬", "봉인된 왼쪽 젖꼭지", "지옥불 반도", "초사이언 3단계", "네크로맨서의 무덤",
+            "사이버 망령", "고블린의 전리품", "드래곤의 콧구멍", "마법소녀 변신봉", "외계인 납치 체험권",
+            "지구 멸망 카운트다운", "좀비 바이러스 보균자", "무지개 반사", "전설의 빤스런", "금지된 주문",
+            "어둠의 다크에서 죽음의 데스를", "관짝 댄스", "영혼의 맞다이", "지옥의 뻐꾸기", "아포칼립스 생존자",
+
+            // 4. 치명적 로맨스 & 막장 드라마 & 법적 문제
+            "재벌 3세의 통장 잔고", "위자료 50억", "혼인신고서", "보증 서주기", "내 심장의 반쪽",
+            "노후 연금", "무덤까지 함께", "합법적 스토커", "니 빚까지 갚아줄", "사랑의 수갑",
+            "영혼의 동반자", "김치 싸대기", "유전자 검사 결과지", "출생의 비밀", "재산 분할 청구권",
+            "종신 보험 수익자", "신장 하나 떼어주기", "간 이식 적합 판정", "사채업자의 독촉장", "전 재산 올인",
+            "사랑의 노예 계약서", "평생 밥 차려주기", "발 닦아주기", "모기 대신 물려주기", "바퀴벌레 대신 잡아주기",
+            "비밀번호 공유", "폰 검사 프리패스권", "전 애인 흑역사", "첫사랑의 저주", "운명의 데스티니",
+            "로또 1등 당첨 용지", "강남 아파트 입주권", "청약 당첨 통장", "비트코인 떡락", "상장폐지 주식",
+
+            // 5. 동사 & 형용사 & 병맛 서술어 조각
+            "핥아줄게", "때려줄게", "파산시켜줄게", "감금할게", "꺼져줘",
+            "훔쳐갈게", "씹어먹을게", "숭배할게", "포기할게", "숨겨줄게",
+            "매달릴게", "기어갈게", "폭발하는", "냄새나는", "끈적끈적한",
+            "촉촉한", "앙증맞은", "거대한", "하찮은", "불법적인",
+            "치명적인", "전설의", "미쳐버린", "고장 난", "썩어가는",
+            "빛나는", "위대한", "더러운", "섹시한", "음흉한",
+            "순수한", "변태 같은", "집착하는", "오열하는", "기절초풍할",
+            "박살 내줄게", "구속할게", "납치할게", "사육할게", "입양할게",
+            "먹여 살릴게", "등쳐먹을게", "갈아 마실게", "묻어버릴게", "되살려줄게",
+
+            // 6. 동물 & 사물 & 밈(Meme)
+            "길바닥 비둘기", "고라니의 비명소리", "화난 치와와", "털 빠지는 고양이", "변기 뚜껑",
+            "뚫어뻥", "효자손", "빨간 다라이", "꽃무늬 몸빼바지", "삼선 슬리퍼",
+            "군대리아 햄버거", "유격 훈련", " 예비군 전투복", "민방위 통지서", "공인인증서 오류",
+            "블루스크린", "알람 못 듣고 지각", "택배 오배송", "엘리베이터 점검 중", "비상구 유도등",
+            " 소화기 안전핀", "버스 카드 잔액 부족", "이어폰 한쪽 단선", "충전기 접촉 불량", "새똥 맞은 정수리",
+            "비 오는 날 흰 바지", "카레 묻은 흰 티셔츠", "김칫국물 튀긴 셔츠", "지퍼 열린 바지", "짝짝이 양말"
+        ];
+
+        /**
+         * ============================================================================
+         * 3. GAME STATE MANAGEMENT
+         * ============================================================================
+         */
+        const state = {
+            screen: 'SETUP', // SETUP, PASS_DEVICE, BUILD_PROPOSAL, REVEAL_INTRO, REVEAL_STAGE, ROUND_WINNER, GAME_OVER
+            players: [
+                { id: 1, name: '사랑꾼 1', rings: 0 },
+                { id: 2, name: '프로포즈 장인', rings: 0 },
+                { id: 3, name: '로맨틱 광인', rings: 0 }
+            ],
+            targetRings: 3,
+            round: 1,
+            recipientIndex: 0, // Index of player receiving proposals this round
+            suitorQueue: [], // Array of player indices who need to build proposals
+            currentSuitorQueuePos: 0,
+            proposals: [], // { playerIndex, playerName, words: [] }
+            revealIndex: 0,
+            hallOfFame: [], // { round, recipientName, winnerName, sentence }
+
+            // Current Turn Builder State
+            currentHand: [],
+            assembledWords: [], // Array of { text, type: 'chaos' | 'base', sourceIndex?: number }
+            usedHandIndices: new Set(),
+            hasSwappedThisTurn: false,
+            swapMode: false,
+            selectedForSwap: new Set(),
+            activeBaseTab: '호칭/주어'
+        };
+
+        const appContainer = document.getElementById('app-container');
+        const btnResetTop = document.getElementById('btn-reset-top');
+
+        /**
+         * ============================================================================
+         * 4. HELPER FUNCTIONS
+         * ============================================================================
+         */
+        function initFloatingBackground() {
+            const bg = document.getElementById('floating-bg');
+            const icons = ['💖', '💍', '💘', '🌹', '✨', '💋', '💝'];
+            for (let i = 0; i < 18; i++) {
+                const el = document.createElement('div');
+                el.className = 'floating-particle text-xl sm:text-2xl';
+                el.textContent = icons[i % icons.length];
+                el.style.left = `${Math.random() * 100}%`;
+                el.style.animationDuration = `${9 + Math.random() * 12}s`;
+                el.style.animationDelay = `${Math.random() * 10}s`;
+                bg.appendChild(el);
+            }
+        }
+
+        function drawRandomCards(count, excludeWords = []) {
+            const available = CHAOS_CARDS_POOL.filter(w => !excludeWords.includes(w));
+            const shuffled = [...available].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, count);
+        }
+
+        function startNewGame() {
+            sfx.ringAward();
+            // Validate player names
+            state.players.forEach((p, idx) => {
+                if (!p.name || p.name.trim() === '') {
+                    p.name = `구혼자 ${idx + 1}`;
+                }
+                p.rings = 0;
+            });
+
+            state.round = 1;
+            state.recipientIndex = 0;
+            state.hallOfFame = [];
+            setupRound();
+        }
+
+        function setupRound() {
+            state.proposals = [];
+            state.suitorQueue = [];
+            for (let i = 0; i < state.players.length; i++) {
+                if (i !== state.recipientIndex) {
+                    state.suitorQueue.push(i);
+                }
+            }
+            state.currentSuitorQueuePos = 0;
+            prepareSuitorTurn();
+        }
+
+        function prepareSuitorTurn() {
+            state.currentHand = drawRandomCards(7);
+            state.assembledWords = [];
+            state.usedHandIndices = new Set();
+            state.hasSwappedThisTurn = false;
+            state.swapMode = false;
+            state.selectedForSwap = new Set();
+            state.screen = 'PASS_DEVICE';
+            render();
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>"']/g, function(m) {
+                return ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                })[m];
+            });
+        }
+
+        function formatSentence(wordsArray) {
+            if (!wordsArray || wordsArray.length === 0) return "";
+            // Smart spacing: attach Korean particles/endings without space if appropriate
+            const attachPrefixes = ["의", "을", "를", "은", "는", "이", "가", "에", "에서", "로", "으로", "부터", "까지", "처럼", "보다", "도", "만", "하고"];
+            let result = "";
+            wordsArray.forEach((item, idx) => {
+                const word = item.text;
+                if (idx === 0) {
+                    result += word;
+                } else if (attachPrefixes.includes(word)) {
+                    result += word;
+                } else {
+                    result += " " + word;
+                }
+            });
+            return result;
+        }
+
+        /**
+         * ============================================================================
+         * 5. SCREEN RENDERERS
+         * ============================================================================
+         */
+        function render() {
+            btnResetTop.classList.toggle('hidden', state.screen === 'SETUP');
+
+            switch (state.screen) {
+                case 'SETUP':
+                    renderSetupScreen();
+                    break;
+                case 'PASS_DEVICE':
+                    renderPassDeviceScreen();
+                    break;
+                case 'BUILD_PROPOSAL':
+                    renderBuildProposalScreen();
+                    break;
+                case 'REVEAL_INTRO':
+                    renderRevealIntroScreen();
+                    break;
+                case 'REVEAL_STAGE':
+                    renderRevealStageScreen();
+                    break;
+                case 'ROUND_WINNER':
+                    renderRoundWinnerScreen();
+                    break;
+                case 'GAME_OVER':
+                    renderGameOverScreen();
+                    break;
+            }
+        }
+
+        // --- SCREEN 1: SETUP ---
+        function renderSetupScreen() {
+            const defaultNicknames = [
+                '사랑꾼 1', '프로포즈 장인', '로맨틱 광인', '직진 본능',
+                '순정 마초', '금사빠 요정', '고백 폭격기', '심장 폭행범'
+            ];
+
+            appContainer.innerHTML = `
+                <div class="bg-rose-950/65 backdrop-blur-md border border-rose-500/30 rounded-3xl p-5 sm:p-8 shadow-2xl space-y-6">
+                    <div class="text-center space-y-2">
+                        <div class="inline-block px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/40 text-amber-300 text-xs font-bold">
+                            🎉 친구들과 한 기기로 돌아가며 플레이!
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                            누가 가장 <span class="text-rose-400">미친 프로포즈</span>를 할까?
+                        </h2>
+                        <p class="text-xs sm:text-sm text-rose-200/80">
+                            무작위로 주어지는 병맛 단어들을 조합해 상대의 심장을 훔쳐보세요!
+                        </p>
+                    </div>
+
+                    <!-- Player Count & Target Rings Controls -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-black/30 border border-rose-500/20 rounded-2xl p-4 flex flex-col justify-between">
+                            <span class="text-xs font-bold text-rose-300 mb-2">👥 플레이어 수 (2~8명)</span>
+                            <div class="flex items-center justify-between gap-2">
+                                <button id="btn-dec-players" class="w-10 h-10 rounded-xl bg-rose-800 hover:bg-rose-700 font-black text-xl text-white transition active:scale-95">-</button>
+                                <span class="text-2xl font-black text-amber-300">${state.players.length}명</span>
+                                <button id="btn-inc-players" class="w-10 h-10 rounded-xl bg-rose-800 hover:bg-rose-700 font-black text-xl text-white transition active:scale-95">+</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-black/30 border border-rose-500/20 rounded-2xl p-4 flex flex-col justify-between">
+                            <span class="text-xs font-bold text-rose-300 mb-2">💍 승리 목표 반지 수</span>
+                            <div class="flex items-center justify-between gap-2">
+                                <button id="btn-dec-rings" class="w-10 h-10 rounded-xl bg-rose-800 hover:bg-rose-700 font-black text-xl text-white transition active:scale-95">-</button>
+                                <span class="text-2xl font-black text-amber-300">${state.targetRings}개</span>
+                                <button id="btn-inc-rings" class="w-10 h-10 rounded-xl bg-rose-800 hover:bg-rose-700 font-black text-xl text-white transition active:scale-95">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Player Name Inputs -->
+                    <div class="space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <label class="text-xs font-bold text-rose-200">✍️ 참가자 이름 입력</label>
+                            <button id="btn-random-names" class="text-xs text-amber-300 hover:text-amber-200 underline font-semibold">
+                                🎲 웃긴 별명 자동 채우기
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-60 overflow-y-auto pr-1">
+                            ${state.players.map((p, idx) => `
+                                <div class="flex items-center gap-2 bg-rose-900/40 border border-rose-500/30 rounded-xl px-3 py-2">
+                                    <span class="w-6 h-6 rounded-full bg-rose-600 text-white text-xs font-black flex items-center justify-center shrink-0">
+                                        ${idx + 1}
+                                    </span>
+                                    <input
+                                        type="text"
+                                        data-player-idx="${idx}"
+                                        value="${escapeHTML(p.name)}"
+                                        placeholder="${defaultNicknames[idx % defaultNicknames.length]}"
+                                        maxlength="12"
+                                        class="player-name-input w-full bg-transparent text-white font-bold text-sm focus:outline-none placeholder-rose-400/50"
+                                    />
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Start Button -->
+                    <button id="btn-start-game" class="w-full py-4 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-600 to-amber-500 hover:from-rose-400 hover:to-amber-400 text-white font-black text-lg sm:text-xl shadow-xl shadow-rose-900/60 transition transform hover:-translate-y-0.5 active:scale-98">
+                        💍 사랑의 전쟁 시작하기!
+                    </button>
+                </div>
+            `;
+
+            // Event Listeners
+            document.getElementById('btn-dec-players').onclick = () => {
+                if (state.players.length > 2) {
+                    sfx.click();
+                    state.players.pop();
+                    render();
+                }
+            };
+            document.getElementById('btn-inc-players').onclick = () => {
+                if (state.players.length < 8) {
+                    sfx.click();
+                    const nextIdx = state.players.length;
+                    state.players.push({
+                        id: Date.now() + nextIdx,
+                        name: defaultNicknames[nextIdx % defaultNicknames.length],
+                        rings: 0
+                    });
+                    render();
+                }
+            };
+            document.getElementById('btn-dec-rings').onclick = () => {
+                if (state.targetRings > 1) {
+                    sfx.click();
+                    state.targetRings--;
+                    render();
+                }
+            };
+            document.getElementById('btn-inc-rings').onclick = () => {
+                if (state.targetRings < 10) {
+                    sfx.click();
+                    state.targetRings++;
+                    render();
+                }
+            };
+
+            document.querySelectorAll('.player-name-input').forEach(input => {
+                input.oninput = (e) => {
+                    const idx = parseInt(e.target.dataset.playerIdx, 10);
+                    state.players[idx].name = e.target.value;
+                };
+            });
+
+            document.getElementById('btn-random-names').onclick = () => {
+                sfx.shuffle();
+                const funNames = [
+                    '방구석 카사노바', '치명적 뱃살왕', '흑염룡 오른팔', '탕수육 부먹파',
+                    '민초단 대장', '마이너스 통장남', '고백 공격수', '혼인신고서 빌런',
+                    '심장 폭격기', '눈물의 순정남', '사랑의 노예', '재벌 3세 호소인',
+                    '새벽감성 폭발러', '로맨스 파괴자', '프로포즈 장인', '사랑꾼 99호'
+                ].sort(() => Math.random() - 0.5);
+
+                state.players.forEach((p, idx) => {
+                    p.name = funNames[idx % funNames.length];
+                });
+                render();
+            };
+
+            document.getElementById('btn-start-game').onclick = startNewGame;
+        }
+
+        // --- SCOREBOARD BAR COMPONENT ---
+        function renderScoreboardBar() {
+            const recipient = state.players[state.recipientIndex];
+            return `
+                <div class="bg-black/40 border border-rose-500/25 rounded-2xl p-3 mb-4 space-y-2">
+                    <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+                        <span class="px-2.5 py-1 rounded-lg bg-rose-600/40 border border-rose-400/30 font-black text-rose-100">
+                            ROUND ${state.round} • 목표 💍 ${state.targetRings}개
+                        </span>
+                        <span class="px-2.5 py-1 rounded-lg bg-amber-500/20 border border-amber-400/40 font-bold text-amber-300">
+                            👑 이번 라운드 고백받는 주인공: <strong class="text-white underline">${escapeHTML(recipient.name)}</strong>
+                        </span>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 pt-1">
+                        ${state.players.map((p, idx) => {
+                            const isRec = idx === state.recipientIndex;
+                            return `
+                                <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold ${isRec ? 'bg-amber-500/25 border border-amber-400/60 text-amber-200' : 'bg-rose-950/70 border border-rose-500/20 text-rose-200'}">
+                                    <span>${isRec ? '👑' : '💌'} ${escapeHTML(p.name)}</span>
+                                    <span class="text-amber-300">${'💍'.repeat(p.rings) || '0'}</span>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- SCREEN 2: PASS DEVICE SHIELD ---
+        function renderPassDeviceScreen() {
+            const recipient = state.players[state.recipientIndex];
+            const suitorIdx = state.suitorQueue[state.currentSuitorQueuePos];
+            const suitor = state.players[suitorIdx];
+
+            appContainer.innerHTML = `
+                ${renderScoreboardBar()}
+                <div class="bg-gradient-to-b from-rose-950/90 to-slate-950/90 border-2 border-rose-500/40 rounded-3xl p-6 sm:p-10 text-center shadow-2xl space-y-6 my-auto">
+                    <div class="text-5xl sm:text-6xl animate-bounce">🙈📱</div>
+                    <div class="space-y-2">
+                        <span class="inline-block px-3 py-1 rounded-full bg-rose-500/20 border border-rose-400/40 text-rose-300 text-xs font-bold">
+                            구혼자 차례 (${state.currentSuitorQueuePos + 1} / ${state.suitorQueue.length})
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-white leading-snug">
+                            <span class="text-amber-300 underline decoration-wavy">${escapeHTML(suitor.name)}</span>님에게<br/>기기를 넘겨주세요!
+                        </h2>
+                        <p class="text-sm text-rose-200/80 pt-1">
+                            고백받는 <strong class="text-pink-300">${escapeHTML(recipient.name)}</strong>님과 다른 사람들은 화면을 보지 마세요! 👀
+                        </p>
+                    </div>
+
+                    <div class="pt-2">
+                        <button id="btn-im-ready" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white font-black text-lg shadow-xl shadow-rose-950 transition transform hover:scale-105 active:scale-95">
+                            네, 제가 ${escapeHTML(suitor.name)}입니다! 카드 보기 💌
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('btn-im-ready').onclick = () => {
+                sfx.shuffle();
+                state.screen = 'BUILD_PROPOSAL';
+                render();
+            };
+        }
+
+        // --- SCREEN 3: BUILD PROPOSAL ---
+        function renderBuildProposalScreen() {
+            const recipient = state.players[state.recipientIndex];
+            const suitorIdx = state.suitorQueue[state.currentSuitorQueuePos];
+            const suitor = state.players[suitorIdx];
+            const previewSentence = formatSentence(state.assembledWords);
+
+            appContainer.innerHTML = `
+                ${renderScoreboardBar()}
+                <div class="bg-rose-950/75 backdrop-blur-md border border-rose-500/30 rounded-3xl p-4 sm:p-6 shadow-2xl space-y-4">
+                    <!-- Top Info -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-rose-500/20 pb-3">
+                        <div>
+                            <span class="text-xs text-rose-300 font-bold">💌 구혼자: <strong class="text-amber-300">${escapeHTML(suitor.name)}</strong></span>
+                            <h2 class="text-base sm:text-lg font-black text-white">
+                                <span class="text-pink-400">${escapeHTML(recipient.name)}</span>에게 바칠 고백을 조립하세요!
+                            </h2>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            ${!state.hasSwappedThisTurn ? `
+                                <button id="btn-toggle-swap" class="px-3 py-1.5 rounded-xl text-xs font-black transition ${state.swapMode ? 'bg-amber-400 text-slate-950 shadow-lg' : 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/40'}">
+                                    ${state.swapMode ? '🔄 교체할 카드 선택 중...' : '🔄 패 교체 찬스 (1회)'}
+                                </button>
+                            ` : `
+                                <span class="px-2.5 py-1 rounded-xl bg-slate-800/80 text-slate-400 text-xs font-bold">패 교체 완료</span>
+                            `}
+                        </div>
+                    </div>
+
+                    <!-- Assembled Proposal Stage -->
+                    <div class="bg-gradient-to-br from-black/50 to-rose-950/60 border-2 border-dashed border-rose-400/50 rounded-2xl p-3.5 min-h-[125px] flex flex-col justify-between">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-[11px] font-bold text-rose-300">✨ 조립된 프로포즈 문장 (카드를 누르면 취소됩니다)</span>
+                            ${state.assembledWords.length > 0 ? `
+                                <button id="btn-clear-words" class="text-[11px] text-rose-400 hover:text-rose-200 underline font-bold">전체 비우기</button>
+                            ` : ''}
+                        </div>
+
+                        <div class="flex flex-wrap gap-1.5 items-center min-h-[44px]">
+                            ${state.assembledWords.length === 0 ? `
+                                <p class="text-xs sm:text-sm text-rose-300/50 italic w-full text-center py-2">
+                                    아래의 병맛 단어 카드와 기본 조사를 클릭해서 문장을 만들어보세요!
+                                </p>
+                            ` : state.assembledWords.map((item, idx) => `
+                                <button
+                                    data-assembled-idx="${idx}"
+                                    class="assembled-word px-3 py-1.5 rounded-xl text-xs sm:text-sm font-black shadow-md flex items-center gap-1 transition hover:opacity-80 ${item.type === 'chaos' ? 'bg-white text-rose-900 border border-rose-300' : 'bg-rose-700 text-rose-100 border border-rose-400'}"
+                                    title="클릭하여 제거"
+                                >
+                                    <span>${escapeHTML(item.text)}</span>
+                                    <span class="text-[10px] opacity-60">✕</span>
+                                </button>
+                            `).join('')}
+                        </div>
+
+                        ${state.assembledWords.length > 0 ? `
+                            <div class="mt-3 pt-2 border-t border-rose-500/20 text-center">
+                                <p class="font-dramatic text-base sm:text-lg text-amber-200 font-bold leading-relaxed">
+                                    "${escapeHTML(previewSentence)}"
+                                </p>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <!-- Swap Mode Action Banner -->
+                    ${state.swapMode ? `
+                        <div class="bg-amber-500/20 border border-amber-400 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2">
+                            <span class="text-xs font-bold text-amber-200">
+                                버릴 병맛 카드를 최대 3장까지 고르세요 (${state.selectedForSwap.size}/3 선택됨)
+                            </span>
+                            <div class="flex gap-2">
+                                <button id="btn-cancel-swap" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-200 text-xs font-bold">취소</button>
+                                <button id="btn-confirm-swap" class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black">
+                                    선택 카드 교체하기!
+                                </button>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- Hand of 7 Chaotic Cards -->
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-black text-amber-300">🃏 내 손패: 랜덤 병맛 카드 (7장)</span>
+                            <span class="text-[11px] text-rose-300">눌러서 문장에 추가</span>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                            ${state.currentHand.map((word, idx) => {
+                                const isUsed = state.usedHandIndices.has(idx);
+                                const isSwapSelected = state.selectedForSwap.has(idx);
+                                return `
+                                    <button
+                                        data-hand-idx="${idx}"
+                                        ${isUsed && !state.swapMode ? 'disabled' : ''}
+                                        class="game-card chaos-card ${isSwapSelected ? 'selected-for-swap' : ''} ${isUsed && !state.swapMode ? 'opacity-30 cursor-not-allowed transform-none' : ''} rounded-2xl p-2.5 sm:p-3 text-xs sm:text-sm font-black text-center leading-tight min-h-[54px] flex items-center justify-center"
+                                    >
+                                        ${escapeHTML(word)}
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Base Connector / Particle Tray -->
+                    <div class="space-y-2 pt-1">
+                        <div class="flex items-center justify-between flex-wrap gap-1">
+                            <span class="text-xs font-black text-rose-200">🧩 기본 조사 &amp; 어미 (무제한 사용)</span>
+                            <div class="flex gap-1 bg-black/40 p-1 rounded-xl">
+                                ${Object.keys(BASE_CARDS).map(cat => `
+                                    <button
+                                        data-base-cat="${cat}"
+                                        class="base-tab-btn px-2 py-1 rounded-lg text-[11px] font-bold transition ${state.activeBaseTab === cat ? 'bg-rose-600 text-white' : 'text-rose-300 hover:text-white'}"
+                                    >
+                                        ${cat}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-1.5 bg-black/30 p-2.5 rounded-2xl border border-rose-500/20">
+                            ${BASE_CARDS[state.activeBaseTab].map(word => `
+                                <button
+                                    data-base-word="${escapeHTML(word)}"
+                                    class="game-card base-card px-2.5 py-1.5 rounded-xl text-xs font-bold"
+                                >
+                                    ${escapeHTML(word)}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Submit Proposal Button -->
+                    <div class="pt-2">
+                        <button
+                            id="btn-submit-proposal"
+                            ${state.assembledWords.length === 0 ? 'disabled' : ''}
+                            class="w-full py-3.5 rounded-2xl font-black text-base sm:text-lg shadow-xl transition ${state.assembledWords.length === 0 ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-400 hover:to-pink-500 text-white transform hover:-translate-y-0.5'}"
+                        >
+                            💌 이대로 프로포즈 확정하기!
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Event Listeners
+            const btnToggleSwap = document.getElementById('btn-toggle-swap');
+            if (btnToggleSwap) {
+                btnToggleSwap.onclick = () => {
+                    sfx.click();
+                    state.swapMode = !state.swapMode;
+                    state.selectedForSwap.clear();
+                    render();
+                };
+            }
+
+            const btnCancelSwap = document.getElementById('btn-cancel-swap');
+            if (btnCancelSwap) {
+                btnCancelSwap.onclick = () => {
+                    sfx.click();
+                    state.swapMode = false;
+                    state.selectedForSwap.clear();
+                    render();
+                };
+            }
+
+            const btnConfirmSwap = document.getElementById('btn-confirm-swap');
+            if (btnConfirmSwap) {
+                btnConfirmSwap.onclick = () => {
+                    if (state.selectedForSwap.size === 0) {
+                        state.swapMode = false;
+                        render();
+                        return;
+                    }
+                    sfx.shuffle();
+                    // Remove any assembled words that came from swapped indices
+                    state.assembledWords = state.assembledWords.filter(w => {
+                        if (w.type === 'chaos' && state.selectedForSwap.has(w.sourceIndex)) {
+                            return false;
+                        }
+                        return true;
+                    });
+                    state.selectedForSwap.forEach(idx => {
+                        state.usedHandIndices.delete(idx);
+                    });
+
+                    // Draw new cards for selected slots
+                    const newCards = drawRandomCards(state.selectedForSwap.size, state.currentHand);
+                    let newCardPtr = 0;
+                    state.selectedForSwap.forEach(idx => {
+                        state.currentHand[idx] = newCards[newCardPtr++];
+                    });
+
+                    state.hasSwappedThisTurn = true;
+                    state.swapMode = false;
+                    state.selectedForSwap.clear();
+                    render();
+                };
+            }
+
+            // Hand cards click
+            document.querySelectorAll('[data-hand-idx]').forEach(btn => {
+                btn.onclick = () => {
+                    const idx = parseInt(btn.dataset.handIdx, 10);
+                    if (state.swapMode) {
+                        sfx.click();
+                        if (state.selectedForSwap.has(idx)) {
+                            state.selectedForSwap.delete(idx);
+                        } else if (state.selectedForSwap.size < 3) {
+                            state.selectedForSwap.add(idx);
+                        }
+                        render();
+                    } else {
+                        if (state.usedHandIndices.has(idx)) return;
+                        sfx.cardAdd();
+                        state.usedHandIndices.add(idx);
+                        state.assembledWords.push({
+                            text: state.currentHand[idx],
+                            type: 'chaos',
+                            sourceIndex: idx
+                        });
+                        render();
+                    }
+                };
+            });
+
+            // Base tabs
+            document.querySelectorAll('.base-tab-btn').forEach(btn => {
+                btn.onclick = () => {
+                    sfx.click();
+                    state.activeBaseTab = btn.dataset.baseCat;
+                    render();
+                };
+            });
+
+            // Base cards click
+            document.querySelectorAll('[data-base-word]').forEach(btn => {
+                btn.onclick = () => {
+                    sfx.cardAdd();
+                    state.assembledWords.push({
+                        text: btn.dataset.baseWord,
+                        type: 'base'
+                    });
+                    render();
+                };
+            });
+
+            // Remove assembled word
+            document.querySelectorAll('[data-assembled-idx]').forEach(btn => {
+                btn.onclick = () => {
+                    sfx.cardRemove();
+                    const idx = parseInt(btn.dataset.assembledIdx, 10);
+                    const removed = state.assembledWords[idx];
+                    if (removed.type === 'chaos' && removed.sourceIndex !== undefined) {
+                        state.usedHandIndices.delete(removed.sourceIndex);
+                    }
+                    state.assembledWords.splice(idx, 1);
+                    render();
+                };
+            });
+
+            const btnClearWords = document.getElementById('btn-clear-words');
+            if (btnClearWords) {
+                btnClearWords.onclick = () => {
+                    sfx.cardRemove();
+                    state.assembledWords = [];
+                    state.usedHandIndices.clear();
+                    render();
+                };
+            }
+
+            // Submit Proposal
+            document.getElementById('btn-submit-proposal').onclick = () => {
+                if (state.assembledWords.length === 0) return;
+                sfx.click();
+
+                state.proposals.push({
+                    playerIndex: suitorIdx,
+                    playerName: suitor.name,
+                    words: [...state.assembledWords],
+                    sentence: formatSentence(state.assembledWords)
+                });
+
+                state.currentSuitorQueuePos++;
+                if (state.currentSuitorQueuePos < state.suitorQueue.length) {
+                    prepareSuitorTurn();
+                } else {
+                    // Shuffle proposal reveal order for extra suspense!
+                    state.proposals.sort(() => Math.random() - 0.5);
+                    state.revealIndex = 0;
+                    state.screen = 'REVEAL_INTRO';
+                    sfx.dramaticReveal();
+                    render();
+                }
+            };
+        }
+
+        // --- SCREEN 4: REVEAL INTRO ---
+        function renderRevealIntroScreen() {
+            const recipient = state.players[state.recipientIndex];
+
+            appContainer.innerHTML = `
+                ${renderScoreboardBar()}
+                <div class="bg-gradient-to-b from-rose-950/90 to-slate-950/90 border-2 border-amber-400/50 rounded-3xl p-6 sm:p-10 text-center shadow-2xl space-y-6 my-auto spotlight-box">
+                    <div class="text-5xl sm:text-6xl">🎙️🌹</div>
+                    <div class="space-y-3">
+                        <span class="inline-block px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/50 text-amber-300 text-xs font-black">
+                            모든 구혼자의 고백 준비 완료!
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-white leading-snug">
+                            이제 모두가 함께 화면을 보세요!<br/>
+                            <span class="text-pink-400">${escapeHTML(recipient.name)}</span>님을 향한<br/>
+                            <span class="text-amber-300">세기의 고백 타임</span>이 시작됩니다!
+                        </h2>
+                        <p class="text-xs sm:text-sm text-rose-200/80 max-w-md mx-auto leading-relaxed">
+                            구혼자들은 자신의 문장이 공개되면 <strong class="text-white">최대한 진지하고 느끼한 목소리로 큰 소리로 낭독</strong>해주세요!
+                        </p>
+                    </div>
+
+                    <button id="btn-start-reveal" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-rose-500 to-pink-600 hover:from-amber-400 hover:to-pink-500 text-white font-black text-lg shadow-xl transition transform hover:scale-105 active:scale-95">
+                        첫 번째 고백 공개하기! 💖
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('btn-start-reveal').onclick = () => {
+                sfx.dramaticReveal();
+                state.screen = 'REVEAL_STAGE';
+                render();
+            };
+        }
+
+        // --- SCREEN 5: REVEAL STAGE & SELECTION ---
+        function renderRevealStageScreen() {
+            const recipient = state.players[state.recipientIndex];
+            const currentProp = state.proposals[state.revealIndex];
+            const isLastReveal = state.revealIndex >= state.proposals.length - 1;
+
+            appContainer.innerHTML = `
+                ${renderScoreboardBar()}
+                <div class="bg-gradient-to-b from-rose-950/90 to-slate-950/95 border-2 border-rose-400/50 rounded-3xl p-5 sm:p-8 shadow-2xl space-y-6 spotlight-box">
+                    <!-- Dramatic Header -->
+                    <div class="text-center space-y-1">
+                        <span class="inline-block px-3 py-1 rounded-full bg-rose-500/30 border border-rose-400/50 text-rose-200 text-xs font-black">
+                            고백 발표 (${state.revealIndex + 1} / ${state.proposals.length})
+                        </span>
+                        <h2 class="text-xl sm:text-2xl font-black text-white">
+                            💌 <span class="text-amber-300">${escapeHTML(currentProp.playerName)}</span>의 프로포즈
+                        </h2>
+                        <p class="text-xs text-pink-300 font-bold animate-pulse">
+                            🎙️ "${escapeHTML(currentProp.playerName)}님, ${escapeHTML(recipient.name)}님을 바라보며 진지하게 읽어주세요!"
+                        </p>
+                    </div>
+
+                    <!-- Dramatic Proposal Quote Card -->
+                    <div class="bg-gradient-to-br from-rose-100 via-white to-amber-50 text-rose-950 rounded-3xl p-6 sm:p-8 shadow-inner border-4 border-amber-300/80 text-center space-y-4 relative overflow-hidden">
+                        <div class="text-3xl opacity-30">❝</div>
+                        <p class="font-dramatic text-xl sm:text-3xl font-bold leading-relaxed break-keep text-rose-950">
+                            ${escapeHTML(currentProp.sentence)}
+                        </p>
+                        <div class="text-3xl opacity-30">❞</div>
+                        <div class="pt-2 border-t border-rose-200 flex flex-wrap justify-center gap-1">
+                            ${currentProp.words.map(w => `
+                                <span class="px-2 py-0.5 rounded-md text-[11px] font-bold ${w.type === 'chaos' ? 'bg-rose-200 text-rose-900' : 'bg-slate-200 text-slate-700'}">
+                                    ${escapeHTML(w.text)}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Navigation between proposals -->
+                    <div class="flex items-center justify-between gap-3">
+                        <button
+                            id="btn-prev-reveal"
+                            ${state.revealIndex === 0 ? 'disabled' : ''}
+                            class="px-4 py-3 rounded-2xl font-bold text-sm transition ${state.revealIndex === 0 ? 'bg-slate-800/40 text-slate-600 cursor-not-allowed' : 'bg-rose-900 hover:bg-rose-800 text-rose-100'}"
+                        >
+                            ◀ 이전 고백
+                        </button>
+
+                        ${!isLastReveal ? `
+                            <button id="btn-next-reveal" class="flex-1 py-3.5 rounded-2xl bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white font-black text-base shadow-lg transition">
+                                다음 구혼자 고백 보기 ▶
+                            </button>
+                        ` : `
+                            <div class="flex-1 text-center text-xs font-black text-amber-300">
+                                ✨ 모든 고백이 공개되었습니다! 아래에서 승자를 선택하세요!
+                            </div>
+                        `}
+                    </div>
+
+                    <!-- Final Decision Panel (Shown once all proposals are viewed, or accessible on last slide) -->
+                    ${isLastReveal ? `
+                        <div class="bg-black/50 border-2 border-amber-400/60 rounded-2xl p-4 sm:p-5 space-y-3 mt-4">
+                            <div class="text-center">
+                                <h3 class="text-base sm:text-lg font-black text-amber-300">
+                                    👑 ${escapeHTML(recipient.name)}님의 선택 시간!
+                                </h3>
+                                <p class="text-xs text-rose-200">
+                                    가장 심장을 울렸거나 배꼽을 빠지게 한 프로포즈를 선택해 반지(💍)를 주세요!
+                                </p>
+                            </div>
+                            <div class="space-y-2.5">
+                                ${state.proposals.map((prop, idx) => `
+                                    <div class="bg-rose-950/90 border border-rose-500/40 rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                        <div class="space-y-1">
+                                            <span class="text-xs font-black text-amber-300">💌 ${escapeHTML(prop.playerName)}</span>
+                                            <p class="font-dramatic text-sm sm:text-base text-white font-bold">
+                                                "${escapeHTML(prop.sentence)}"
+                                            </p>
+                                        </div>
+                                        <button
+                                            data-pick-winner="${idx}"
+                                            class="shrink-0 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs sm:text-sm shadow-md transition transform hover:scale-105 active:scale-95"
+                                        >
+                                            이 고백을 받아줄게! 💍
+                                        </button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            const btnPrev = document.getElementById('btn-prev-reveal');
+            if (btnPrev && state.revealIndex > 0) {
+                btnPrev.onclick = () => {
+                    sfx.click();
+                    state.revealIndex--;
+                    render();
+                };
+            }
+
+            const btnNext = document.getElementById('btn-next-reveal');
+            if (btnNext) {
+                btnNext.onclick = () => {
+                    sfx.dramaticReveal();
+                    state.revealIndex++;
+                    render();
+                };
+            }
+
+            document.querySelectorAll('[data-pick-winner]').forEach(btn => {
+                btn.onclick = () => {
+                    const propIdx = parseInt(btn.dataset.pickWinner, 10);
+                    const winningProposal = state.proposals[propIdx];
+                    const winnerPlayer = state.players[winningProposal.playerIndex];
+                    const recipientPlayer = state.players[state.recipientIndex];
+
+                    sfx.ringAward();
+                    winnerPlayer.rings++;
+
+                    state.hallOfFame.push({
+                        round: state.round,
+                        recipientName: recipientPlayer.name,
+                        winnerName: winnerPlayer.name,
+                        sentence: winningProposal.sentence
+                    });
+
+                    if (winnerPlayer.rings >= state.targetRings) {
+                        state.screen = 'GAME_OVER';
+                    } else {
+                        state.screen = 'ROUND_WINNER';
+                    }
+                    render();
+                };
+            });
+        }
+
+        // --- SCREEN 6: ROUND WINNER ---
+        function renderRoundWinnerScreen() {
+            const latestWin = state.hallOfFame[state.hallOfFame.length - 1];
+
+            appContainer.innerHTML = `
+                ${renderScoreboardBar()}
+                <div class="bg-gradient-to-b from-rose-950/90 to-slate-950/95 border-2 border-amber-400 rounded-3xl p-6 sm:p-10 text-center shadow-2xl space-y-6 my-auto spotlight-box">
+                    <div class="text-6xl animate-bounce">💍💖</div>
+                    <div class="space-y-2">
+                        <span class="inline-block px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400 text-amber-300 text-xs font-black">
+                            ROUND ${latestWin.round} 커플 성사!
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-white">
+                            <span class="text-pink-400">${escapeHTML(latestWin.recipientName)}</span>님이<br/>
+                            <span class="text-amber-300">${escapeHTML(latestWin.winnerName)}</span>님의 고백을 받아들였습니다!
+                        </h2>
+                    </div>
+
+                    <div class="bg-white/95 text-rose-950 rounded-2xl p-5 border-2 border-amber-300 shadow-lg max-w-lg mx-auto">
+                        <p class="font-dramatic text-lg sm:text-xl font-bold">
+                            "${escapeHTML(latestWin.sentence)}"
+                        </p>
+                    </div>
+
+                    <button id="btn-next-round" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-400 hover:to-pink-500 text-white font-black text-lg shadow-xl transition transform hover:scale-105">
+                        다음 라운드로 이동 ▶
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('btn-next-round').onclick = () => {
+                sfx.click();
+                state.round++;
+                state.recipientIndex = (state.recipientIndex + 1) % state.players.length;
+                setupRound();
+            };
+        }
+
+        // --- SCREEN 7: GAME OVER & HALL OF FAME ---
+        function renderGameOverScreen() {
+            const sortedPlayers = [...state.players].sort((a, b) => b.rings - a.rings);
+            const champion = sortedPlayers[0];
+
+            appContainer.innerHTML = `
+                <div class="bg-gradient-to-b from-rose-950/90 to-slate-950/95 border-2 border-amber-400 rounded-3xl p-5 sm:p-8 shadow-2xl space-y-6 spotlight-box">
+                    <div class="text-center space-y-2">
+                        <div class="text-6xl">👑💍🎉</div>
+                        <span class="inline-block px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400 text-amber-300 text-xs font-black">
+                            최종 우승자 탄생!
+                        </span>
+                        <h2 class="text-2xl sm:text-4xl font-black text-white">
+                            전설의 프로포즈 장인<br/>
+                            <span class="text-amber-300 underline decoration-rose-500">${escapeHTML(champion.name)}</span> 우승!
+                        </h2>
+                        <p class="text-sm text-rose-200">
+                            총 <strong class="text-amber-300">${champion.rings}개의 반지</strong>를 쟁취하며 모두의 심장을 폭행했습니다!
+                        </p>
+                    </div>
+
+                    <!-- Final Rankings -->
+                    <div class="bg-black/40 border border-rose-500/30 rounded-2xl p-4 space-y-2">
+                        <h3 class="text-xs font-black text-rose-300 uppercase tracking-wider">🏆 최종 순위</h3>
+                        <div class="space-y-1.5">
+                            ${sortedPlayers.map((p, idx) => `
+                                <div class="flex items-center justify-between px-3 py-2 rounded-xl ${idx === 0 ? 'bg-amber-500/25 border border-amber-400/60 text-amber-200 font-black' : 'bg-rose-950/50 text-rose-100 font-bold'} text-sm">
+                                    <span>${idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `${idx + 1}위`} ${escapeHTML(p.name)}</span>
+                                    <span>${'💍'.repeat(p.rings) || '반지 없음 💔'} (${p.rings}개)</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Hall of Fame -->
+                    <div class="bg-black/40 border border-rose-500/30 rounded-2xl p-4 space-y-3">
+                        <h3 class="text-xs font-black text-amber-300">📜 명예의 전당 (역대 라운드 당선작)</h3>
+                        <div class="space-y-2.5 max-h-60 overflow-y-auto pr-1">
+                            ${state.hallOfFame.map(item => `
+                                <div class="bg-rose-950/70 border border-rose-500/25 rounded-xl p-3 space-y-1">
+                                    <div class="flex items-center justify-between text-[11px] text-rose-300 font-bold">
+                                        <span>ROUND ${item.round} • 💌 ${escapeHTML(item.winnerName)} ➔ 👑 ${escapeHTML(item.recipientName)}</span>
+                                        <span>💍</span>
+                                    </div>
+                                    <p class="font-dramatic text-sm sm:text-base text-amber-100 font-bold">
+                                        "${escapeHTML(item.sentence)}"
+                                    </p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Replay Actions -->
+                    <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                        <button id="btn-play-again-same" class="flex-1 py-3.5 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-400 hover:to-pink-500 text-white font-black text-base shadow-lg transition">
+                            🔄 같은 멤버로 한 판 더!
+                        </button>
+                        <button id="btn-back-setup" class="flex-1 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-black text-base transition">
+                            ⚙️ 인원/설정 변경하기
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('btn-play-again-same').onclick = startNewGame;
+            document.getElementById('btn-back-setup').onclick = () => {
+                sfx.click();
+                state.screen = 'SETUP';
+                render();
+            };
+        }
+
+        /**
+         * ============================================================================
+         * 6. GLOBAL UI CONTROLS (Modals, Sound, Reset)
+         * ============================================================================
+         */
+        document.getElementById('btn-sound').onclick = (e) => {
+            sfx.enabled = !sfx.enabled;
+            e.target.textContent = sfx.enabled ? '🔊' : '🔇';
+            if (sfx.enabled) sfx.click();
+        };
+
+        const rulesModal = document.getElementById('rules-modal');
+        document.getElementById('btn-rules').onclick = () => {
+            sfx.click();
+            rulesModal.classList.remove('hidden');
+        };
+        document.getElementById('btn-close-rules').onclick = () => {
+            sfx.click();
+            rulesModal.classList.add('hidden');
+        };
+        document.getElementById('btn-confirm-rules').onclick = () => {
+            sfx.click();
+            rulesModal.classList.add('hidden');
+        };
+
+        const confirmModal = document.getElementById('confirm-modal');
+        btnResetTop.onclick = () => {
+            sfx.click();
+            confirmModal.classList.remove('hidden');
+        };
+        document.getElementById('btn-confirm-cancel').onclick = () => {
+            sfx.click();
+            confirmModal.classList.add('hidden');
+        };
+        document.getElementById('btn-confirm-ok').onclick = () => {
+            sfx.click();
+            confirmModal.classList.add('hidden');
+            state.screen = 'SETUP';
+            render();
+        };
+
+        // Initialize App on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            initFloatingBackground();
+            render();
+        });
+    </script>
+</body>
+</html>
